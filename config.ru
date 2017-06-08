@@ -11,6 +11,9 @@ META_SERVERS = {
 
 get "/" do
   timestamp = (Time.now.to_datetime << 1).to_time.to_i
+  response.headers['Access-Control-Allow-Origin'] = '*'
+  content_type :json
+
   META_SERVERS.each_pair.inject({}) do |acc, (host, port)|
     acc[host] = {}
     begin
