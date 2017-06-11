@@ -38,7 +38,7 @@ get "/" do
         end
         s.send("STATS #{timestamp}\n", 0)
         if line = s.readline =~ /GAMES SINCE [^:]+: (\d+)/
-          acc[host][:games_last_month] = $1.to_i
+          acc[hostKey][:games_last_month] = $1.to_i
         end
       end
     rescue Exception
