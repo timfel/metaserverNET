@@ -15,7 +15,7 @@ get "/" do
   content_type :json
 
   META_SERVERS.each_pair.inject({}) do |acc, (host, port)|
-    acc[host] = {}
+    acc["#{host}:#{port}"] = {}
     begin
       TCPSocket.open(host, port) do |s|
         s.send("LISTGAMES\n", 0)
