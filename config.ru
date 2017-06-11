@@ -15,7 +15,8 @@ get "/" do
   content_type :json
 
   META_SERVERS.each_pair.inject({}) do |acc, (host, port)|
-    acc["#{host}:#{port}"] = {}
+    hostKey = "#{host}:#{port}"
+    acc[hostKey] = {}
     begin
       TCPSocket.open(host, port) do |s|
         s.send("LISTGAMES\n", 0)
@@ -25,7 +26,7 @@ get "/" do
               line = s.readline
               break if line =~ /LISTGAMES_OK/
               /LISTGAMES (?<id>\d+) "(?<description>.+)" "(?<map>.+)" (?<open_slots>\d+) (?<max_slots>\d+) (?<ip>[^ ]+) (?<port>[^ ]+)/ =~ line
-              acc[host][id] = {
+              acc[hostKey][id] = {
                 description: description,
                 map: map,
                 openSlots: open_slots,
